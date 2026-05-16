@@ -1,0 +1,33 @@
+{
+    "name": "lickd/slack-gateway-client",
+    "description": "Laravel package for publishing messages to the Lickd Slack gateway via SQS",
+    "type": "library",
+    "license": "proprietary",
+    "require": {
+        "php": "^8.2",
+        "aws/aws-sdk-php": "^3.0",
+        "psr/log": "^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lickd\\SlackGatewayClient\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Lickd\\SlackGatewayClient\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Lickd\\SlackGatewayClient\\SlackGatewayServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
