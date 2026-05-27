@@ -1,0 +1,42 @@
+{
+    "name": "lickd/slack-gateway-client",
+    "description": "PHP package for publishing messages to a Slack gateway micro-service via AWS SQS. Supports Laravel and Symfony.",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "aws/aws-sdk-php": "^3.0",
+        "psr/log": "^1.0|^2.0|^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0",
+        "symfony/config": "^6.0|^7.0",
+        "symfony/dependency-injection": "^6.0|^7.0",
+        "symfony/http-kernel": "^6.0|^7.0"
+    },
+    "suggest": {
+        "illuminate/support": "Required for Laravel auto-discovery via SlackGatewayServiceProvider",
+        "symfony/http-kernel": "Required for Symfony bundle support via SlackGatewayClientBundle",
+        "symfony/dependency-injection": "Required for Symfony bundle support",
+        "symfony/config": "Required for Symfony bundle configuration"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lickd\\SlackGatewayClient\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Lickd\\SlackGatewayClient\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Lickd\\SlackGatewayClient\\SlackGatewayServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
