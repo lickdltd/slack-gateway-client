@@ -14,5 +14,6 @@ final readonly class SlackMessageDto
         public ?string $threadTs = null,
         public ?string $idempotencyKey = null,
         public string $source = 'unknown',
+        public ?string $taskToken = null,
     ) {}
 }
