@@ -38,6 +38,7 @@ final class SlackGatewayPublisher implements SlackGatewayPublisherInterface
                 'attachments'    => $message->attachments,
                 'threadTs'       => $message->threadTs,
                 'idempotencyKey' => $message->idempotencyKey,
+                'taskToken'      => $message->taskToken,
                 'source'         => $message->source,
             ], JSON_THROW_ON_ERROR),
         ]);

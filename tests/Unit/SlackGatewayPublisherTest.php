@@ -115,6 +115,7 @@ class SlackGatewayPublisherTest extends TestCase
             attachments:    [['color' => '#36a64f', 'text' => 'Success']],
             threadTs:       '1234567890.123456',
             idempotencyKey: 'deploy-abc-123',
+            taskToken:      'task-token-abc-123',
             source:         'deploy-service',
         );
 
@@ -128,6 +129,7 @@ class SlackGatewayPublisherTest extends TestCase
         $this->assertSame([['color' => '#36a64f', 'text' => 'Success']], $body['attachments']);
         $this->assertSame('1234567890.123456', $body['threadTs']);
         $this->assertSame('deploy-abc-123', $body['idempotencyKey']);
+        $this->assertSame('task-token-abc-123', $body['taskToken']);
         $this->assertSame('deploy-service', $body['source']);
     }
 
@@ -156,6 +158,31 @@ class SlackGatewayPublisherTest extends TestCase
         $this->assertSame([], $body['attachments']);
         $this->assertNull($body['threadTs']);
         $this->assertNull($body['idempotencyKey']);
+        $this->assertNull($body['taskToken']);
         $this->assertSame('unknown', $body['source']);
+    }
+
+    public function testPublishSerialisesTaskTokenWhenSet(): void
+    {
+        $capturedArgs = null;
+
+        $sqsClient = $this->createMock(SqsClient::class);
+        $sqsClient->expects($this->once())
+            ->method('__call')
+            ->with('sendMessage', $this->callback(function ($args) use (&$capturedArgs) {
+                $capturedArgs = $args[0];
+                return true;
+            }));
+
+        $logger = $this->createMock(LoggerInterface::class);
+
+        $publisher = new SlackGatewayPublisher($sqsClient, $logger, self::QUEUE_BASE_URL, self::QUEUE_PREFIX);
+        $dto = new SlackMessageDto(channel: '#general', text: 'Hello', taskToken: 'AAAAKgAAAAIAAAAAAAAAAQ');
+
+        $publisher->publish($dto, SlackQueue::Normal);
+
+        $body = json_decode($capturedArgs['MessageBody'], true);
+
+        $this->assertSame('AAAAKgAAAAIAAAAAAAAAAQ', $body['taskToken']);
     }
 }
