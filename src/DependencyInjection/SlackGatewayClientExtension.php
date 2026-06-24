@@ -23,6 +23,7 @@ class SlackGatewayClientExtension extends Extension
                 new Reference('logger'),
                 $config['queue_base_url'],
                 $config['queue_prefix'],
+                $config['queue_suffix'],
             ])
             ->setAutowired(false)
             ->setPublic(false);

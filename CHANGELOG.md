@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-06-24
+
+### Added
+- Optional `queue_suffix` support in `SlackGatewayPublisher` — when set, appended after the queue type to form the full queue name (e.g. prefix `lickd-slack`, type `high`, suffix `test` → `lickd-slack-high-test`). Allows producers to target environment-specific queues without changing the queue prefix convention.
+- `queue_suffix` config key in the Laravel service provider (`services.slack_gateway.queue_suffix`, read from `SLACK_GATEWAY_QUEUE_SUFFIX`) and Symfony bundle configuration.
+
 ## [2.0.0] - 2026-06-03
 
 ### Added

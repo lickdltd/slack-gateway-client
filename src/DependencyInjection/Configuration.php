@@ -17,6 +17,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('queue_base_url')->isRequired()->cannotBeEmpty()->end()
                 ->scalarNode('queue_prefix')->isRequired()->cannotBeEmpty()->end()
+                ->scalarNode('queue_suffix')->defaultValue('')->end()
             ->end();
 
         return $treeBuilder;
