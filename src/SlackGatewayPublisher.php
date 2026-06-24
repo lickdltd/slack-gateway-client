@@ -17,17 +17,25 @@ final class SlackGatewayPublisher implements SlackGatewayPublisherInterface
         private readonly LoggerInterface $logger,
         private readonly string $queueBaseUrl,
         private readonly string $queuePrefix,
+        private readonly string $queueSuffix = '',
     ) {
         if (!preg_match('/^[a-zA-Z0-9\-_]+$/', $queuePrefix)) {
             throw new \InvalidArgumentException(
                 'Queue prefix must be non-empty and contain only alphanumeric characters, hyphens, and underscores.'
             );
         }
+
+        if ($queueSuffix !== '' && !preg_match('/^[a-zA-Z0-9\-_]+$/', $queueSuffix)) {
+            throw new \InvalidArgumentException(
+                'Queue suffix must contain only alphanumeric characters, hyphens, and underscores.'
+            );
+        }
     }
 
     public function publish(SlackMessageDto $message, SlackQueue $queue): void
     {
-        $queueUrl = rtrim($this->queueBaseUrl, '/') . '/' . $this->queuePrefix . '-' . $queue->suffix();
+        $suffix   = $this->queueSuffix !== '' ? '-' . $this->queueSuffix : '';
+        $queueUrl = rtrim($this->queueBaseUrl, '/') . '/' . $this->queuePrefix . '-' . $queue->suffix() . $suffix;
 
         $this->sqsClient->sendMessage([
             'QueueUrl'    => $queueUrl,

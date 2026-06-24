@@ -30,6 +30,7 @@ class SlackGatewayServiceProvider extends ServiceProvider
                 logger:       $app->make(LoggerInterface::class),
                 queueBaseUrl: $queueBaseUrl,
                 queuePrefix:  $queuePrefix,
+                queueSuffix:  config('services.slack_gateway.queue_suffix', ''),
             );
         });
 
